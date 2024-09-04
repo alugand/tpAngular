@@ -1,6 +1,14 @@
 <main class="main">
-    <div class="content">
-        <p>liseuse works!</p>
+  <div>
+    <div>
+      <app-planche [numero]="numeroEnCours"></app-planche>
     </div>
-    <app-planche></app-planche>
+    <div>
+      <button (click)="first()">Première planche</button>
+      <button (click)="back()">Précédent</button>
+      <button (click)="random()">Random</button>
+      <button (click)="next()">Suivant</button>
+      <button (click)="last()">Dernière planche</button>
+    </div>
+  </div>
 </main>
