@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PlancheComponent } from '../planche/planche.component';
 import { Planche } from '../../models/planche';
 import { XkcdService } from '../../services/xkcd.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-liseuse',
@@ -10,7 +11,12 @@ import { XkcdService } from '../../services/xkcd.service';
   templateUrl: './liseuse.component.html',
   styleUrl: './liseuse.component.css'
 })
-export class LiseuseComponent {
+export class LiseuseComponent implements OnInit{
+  constructor(private napi: XkcdService, private route: ActivatedRoute, private router: Router) { }
+  ngOnInit() {
+    const numero = this.route.snapshot.params['numero']
+    console.log(numero)
+  }
   plancheEnCours = new Planche(1, "https://imgs.xkcd.com/comics/lava_lakes.png", new Date(2024, 8, 2), "Lava Lakes");
   // La fonction réinitialise la propriété "numeroEnCours" à 1.
   first() {
@@ -35,10 +41,11 @@ export class LiseuseComponent {
       next: (reponse) => {
         console.log(reponse) // dans l'onglet console de l'inspecteur on voit l'objet retourner par la méthode getPlancheNumero du service
         this.plancheEnCours = reponse 
+        this.router.navigate(['/liseuse',{ numero: num}])
       },
       error: (err) => console.log(err),
       complete: ()=> console.log('Requete terminée')
     })
   }
-  constructor(private napi: XkcdService) { }
+  
 }

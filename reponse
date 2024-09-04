@@ -1,0 +1,62 @@
+Un raccourci cool : Ctrl+Shift+I ca indente automatiquement le code html d'une page :)
+Attention ne pas supprimer le fichier app.route.ts comme moi psk on l'utilise apres
+
+
+comment ajouter le composant liseuse au template ? : il faut importer le composant dans le composant principal (le composant app), pour cela on ajoite LiseuseComponent dans les metadatas de app.component.ts (utiliser l'auto complétion pour qu'il écrive tout seul l'import). Ensuite on peut ajouter le composant dans le fichier app.component.html en utilisant son nom de balise (le nom de liseuse par défaut est app-liseuse, cf liseuse.component.ts, metadata selector)
+
+q5- en html, on peut ajouter un parametre class="nom-classe" dans une balise pour lui lier une class. On peut ensuite accéder à cette classe dans le css via .nom-classe { les propriétés css }
+cependant, les styles présent dans le fichier composant.css s'appliquent uniquement à ce composant, normalement, class="content" centre le contenu (class présente dans app.component.html section <style></style> rq: <style> contient du code css cela permet de l'écrire dans le html directement au lieu de créer un fichier .css séparé)
+Ainsi class="content" ne s'applique qu'au composant app.
+
+q6- Le fait de le mettre dans le fichier style.css fait que le style s'applique globalement (donc à tous les composants)
+Résumé : écrire dans le fichier component.css -> le style s'applique au composant
+	 écrire dans le fichier style.css -> le style s'applique à tous les composants
+	 
+Création Composant Planche :
+Ici idem que pour ajouter le composant liseuse à notre app, on va ajouter PlancheComponent dans les imports des metadatas de liseuse
+
+Création de la navigation entre planches
+cf p30 du diapo de cours, remarque: ne pas oublier de rajouter @Input() devant numero dans planche.component.ts, jsp trop ce que ça fait mais çà spécifie surement que la variable peut être accéder avec le property Binding dans le parent
+rappel: property Binding, on utilise les [] avec le nom de la variable à modifier dedans et le nom à mettre dans les ""
+	event Binding : on selectionne l'event à capturer entre (), ici (click) et on lui associe une fonction spéciale à éxécuter dans les ""
+	
+Utilisons un modèle !
+on utilise le modele pour ne pas a avoir à passer trop d'arguments dans le <app-planche> (pour l'instant on a que [numero] mais on pourrait en avoir plus donc on va preferer passer directement un objet planche, pour cela on va créer un modele)
+Attention : le code ne remarche seulement apres avoir finit al q4, en effet, le template liseuse.component.html doit être modifie puisque numero a été remplacé par planche, on va donc le changer par [planche]="plancheEnCours"
+
+Améliorations du composant Planche
+perso j'utilise plus numeroEnCours mais ça change rien
+cf les differentes balises html qui existe, h1 pour titre, p pour paragraphe, img ici : https://developer.mozilla.org/fr/docs/Web/HTML/Element/img
+la petite particularite dans le balise img que l'on va créer c'est que le parametre src s'attend à avoir un lien en brut, or nous on voudrait lui passer planche.image mais lui il l'interprete comme du texte et non comme une variable. On va donc utiliser le property binding (les []) sur src, pas besoin de déclarer src comme variable dans planche.component.ts (cf la variable numero du début) car la varbiable src est connue et l'interpeteur angular sait que [src] correspond au parametre src de la balise img
+Remarque: sur https://developer.mozilla.org/fr/ ya plein de truc sur le web (html et javascript)
+
+
+Le Service : 
+En terme de concept
+Un service est une classe TS composée d'attributs et de méthodes, dont l'instanciation est gérée par Angular.
+Un service est, sauf cas spécifique, un singleton (design pattern) : une seule instance de l’objet est utilisée à travers toute l’application.
+Une fois instancié, il est injectable dans n'importe lequel de vos composants ou dans un autre service.
+Ils permettent de :
+    réutiliser du code entre différents composants
+    faciliter l'échange des données
+    centraliser les appels de service
+    séparer les responsabilités visuelles (component) et fonctionnelles/techniques (service)
+Cas d’utilisation
+    Communication avec une API
+    Communication avec une base de données
+    Implémentation d’un cache d’objets
+    Gestion de la session utilisateur côté client
+    ... 
+Pour faire simple, la responsabilité des @Component se limite à afficher et formater la donnée, toute autre opération doit être déléguée à un service. https://blog.codewise.fr/angular-services-introduction
+cf p50 du ploy
+J'ai pas trop compris les observables mais j'ai l'impression que c'est un objet composé de 3 méthodes next, error et complete qui quand elles sont définies permettent de manipuler le résultat des requetes ou autres
+pour voir la requete passer sur le réseau : clique droit sur la pageweb, inspecter, onglet reseau et ensuite cliquer sur les boutons et voir le resultat. On peut voir le contenu de la reponse dans l'onglet reponse, c'est ce quon va capturer avec le pipe et le map
+Remarque: justement en regardant la reponse on voit qu'il renvoie une donnée img: "url" et donc qu'il faut mettre planche.img dans le constructeur de planche pour l'attribut image, idem pour les autres)
+q7, en gros pour résumer le baratin, l'idée est de conserver l'état de la page, c'est à dire que si je suis à l'image 200 et que j'actualise je vais retourner à l'image 1 par défaut, mais moi je voulais rester à l'image 200 même après avoir actualisé, voila le but de la q7
+
+le mot clé of crée un observable avec ce qu'il a à l'intérieur
+
+
+La Groute
+Alors la oups psk j'ai supprimé le fichier où il y avait le router au début (fichier app.routes.ts)
+la l'url la charger tel ou tel composant en fonction de son contenu, http;//localohost/404 va charger le composant pageNotFound et /liseuse/num va charger la composant liseuse
