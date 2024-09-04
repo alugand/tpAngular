@@ -5,7 +5,7 @@ import { LiseuseComponent } from './components/liseuse/liseuse.component';
 @Component({ // les metadatas
   selector: 'app-root',
   standalone: true,
-  imports: [LiseuseComponent],
+  imports: [RouterOutlet, LiseuseComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
