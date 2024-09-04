@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Planche } from '../../models/planche';
 
 @Component({
   selector: 'app-planche',
@@ -8,5 +9,5 @@ import { Component, Input } from '@angular/core';
   styleUrl: './planche.component.css'
 })
 export class PlancheComponent {
-  @Input() numero: number = 1
+  @Input() planche = new Planche()
 }
