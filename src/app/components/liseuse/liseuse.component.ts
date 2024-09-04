@@ -10,7 +10,7 @@ import { Planche } from '../../models/planche';
   styleUrl: './liseuse.component.css'
 })
 export class LiseuseComponent {
-  plancheEnCours: Planche = new Planche()
+  plancheEnCours = new Planche(1,"https://imgs.xkcd.com/comics/lava_lakes.png", new Date(2024, 8, 2), "Lava Lakes");
   // La fonction réinitialise la propriété "numeroEnCours" à 1.
   first() {
     this.plancheEnCours = this.getPlancheNumero(1)

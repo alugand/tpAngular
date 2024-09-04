@@ -1,3 +1,5 @@
 <div class="card">
-    <h1> Planche n°{{ planche.numero }} </h1>
+  <h1>{{ planche.title }}</h1>
+  <p>Planche n°{{ planche.numero }} - {{ planche.date.toDateString() }}</p>
+  <img [src]="planche.image" />
 </div>
