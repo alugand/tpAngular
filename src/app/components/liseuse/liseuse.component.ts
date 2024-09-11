@@ -3,21 +3,23 @@ import { PlancheComponent } from '../planche/planche.component';
 import { Planche } from '../../models/planche';
 import { XkcdService } from '../../services/xkcd.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-liseuse',
   standalone: true,
-  imports: [PlancheComponent],
+  imports: [PlancheComponent, FormsModule],
   templateUrl: './liseuse.component.html',
   styleUrl: './liseuse.component.css'
 })
 export class LiseuseComponent implements OnInit{
   constructor(private napi: XkcdService, private route: ActivatedRoute, private router: Router) { }
+  plancheEnCours = new Planche(1, "https://imgs.xkcd.com/comics/lava_lakes.png", new Date(2024, 8, 2), "Lava Lakes");
+  nombre: number = 2980
   ngOnInit() {
     const numero = this.route.snapshot.params['numero']
-    console.log(numero)
+    this.getPlancheNumero(numero)
   }
-  plancheEnCours = new Planche(1, "https://imgs.xkcd.com/comics/lava_lakes.png", new Date(2024, 8, 2), "Lava Lakes");
   // La fonction réinitialise la propriété "numeroEnCours" à 1.
   first() {
     this.getPlancheNumero(1)
@@ -41,11 +43,16 @@ export class LiseuseComponent implements OnInit{
       next: (reponse) => {
         console.log(reponse) // dans l'onglet console de l'inspecteur on voit l'objet retourner par la méthode getPlancheNumero du service
         this.plancheEnCours = reponse 
-        this.router.navigate(['/liseuse',{ numero: num}])
+        this.router.navigate(['/liseuse',reponse.numero])
       },
       error: (err) => console.log(err),
       complete: ()=> console.log('Requete terminée')
     })
   }
-  
+  changerPlanche(){
+    if (this.nombre < 2981 && this.nombre>-1) {
+      console.log('ok')
+      this.getPlancheNumero(this.nombre)
+    }
+  }
 }

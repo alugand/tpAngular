@@ -1,6 +1,14 @@
 <main class="main">
   <div>
     <div>
+      Aller à la planche numéro :
+      <input type="number" [(ngModel)]="nombre" (keyup.enter)="changerPlanche()">
+      Numero Saisi : {{ nombre }}
+    </div>
+    @if (nombre >2980 || nombre<0) {
+    <div>Attention, saisissez un nombre entre 0 et 2980</div>
+  }
+    <div>
       <app-planche [planche]="plancheEnCours"></app-planche>
     </div>
     <div>
